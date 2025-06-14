@@ -4,7 +4,6 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.libras</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -13,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.1.8</version>
         <relativePath/>
     </parent>
 
@@ -22,28 +21,47 @@
     </properties>
 
     <dependencies>
-        <!-- ... suas outras dependências ... -->
+        <!-- 1) Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-        <!-- 1) Spring Data JPA (já existente, imagino) -->
+        <!-- 2) Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- 2) Banco em memória H2 (para evitar o erro de driver ausente) -->
+        <!-- 3) H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- 3) Spring Boot Web, etc. -->
+        <!-- 4) Bean Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- 4) Starter de testes (JUnit, Mockito, etc.) -->
+        <!-- 5) Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 6) Swagger / OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <!-- 7) Testes -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -51,67 +69,50 @@
         </dependency>
     </dependencies>
 
-
-    <!--    <dependencies>-->
-<!--        &lt;!&ndash; 1) Spring Boot Core &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; 2) Spring Web (API REST) &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; 3) Spring Data JPA &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; 4) Driver H2 (apenas exemplo em memória) &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; 5) Jakarta Annotations (PostConstruct etc.) &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.annotation</groupId>-->
-<!--            <artifactId>jakarta.annotation-api</artifactId>-->
-<!--            <version>2.1.1</version>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; Outras dependências (Lombok, Jackson etc.), se necessárias &ndash;&gt;-->
-<!--        &lt;!&ndash;-->
-<!--        <dependency>-->
-<!--          <groupId>org.projectlombok</groupId>-->
-<!--          <artifactId>lombok</artifactId>-->
-<!--          <optional>true</optional>-->
-<!--        </dependency>-->
-<!--        &ndash;&gt;-->
-<!--    </dependencies>-->
-
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Herdado pelo parent, mas aqui você pode sobrescrever a versão -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <!-- Plugin Spring Boot para “mvn spring-boot:run” -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- Plugin de compilação (Java 21) -->
+            <!-- 1) Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.36</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+
+            <!-- 2) Surefire (vai usar a versão definida em pluginManagement) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <!-- NÃO é necessário repetir a versão aqui -->
+            </plugin>
+
+            <!-- 3) Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
 </project>

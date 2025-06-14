@@ -1,12 +1,28 @@
 package com.libras.backend.quiz.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public class PerguntaDTO {
+
+    @NotNull
     private Long id;
+
+    @NotBlank(message = "A URL do sinal não pode estar em branco")
     private String sinalUrl;
-    private List<String> opcoes;
+
+    @Size(min = 2, message = "Devem vir pelo menos 2 opções")
+    private List<@NotBlank String> opcoes;
+
+    @NotNull(message = "O índice correto deve ser informado")
     private Integer indiceCorreto;
+
+//    private Long id;
+//    private String sinalUrl;
+//    private List<String> opcoes;
+//    private Integer indiceCorreto;
 
     public PerguntaDTO() { }
 

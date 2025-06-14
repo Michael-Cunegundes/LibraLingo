@@ -1,3 +1,4 @@
+// src/main/java/com/libras/backend/config/QuizDataInitializer.java
 package com.libras.backend.config;
 
 import com.libras.backend.model.quiz.Opcao;
@@ -15,10 +16,7 @@ public class QuizDataInitializer {
     @Bean
     public CommandLineRunner populaPerguntas(PerguntaRepository perguntaRepository) {
         return args -> {
-            // Apenas execute uma vez: limpe tudo e recrie
-            perguntaRepository.deleteAll();
-
-            // Exemplo de Pergunta 1
+            // Cria as perguntas padrão
             Pergunta p1 = new Pergunta();
             p1.setSinalUrl("https://dominio.com/sinal1.jpg");
             p1.setIndiceCorreto(0);
@@ -26,13 +24,8 @@ public class QuizDataInitializer {
             p1.getOpcoes().add(new Opcao("Opção B"));
             p1.getOpcoes().add(new Opcao("Opção C"));
             p1.getOpcoes().add(new Opcao("Opção D"));
-            // Ajustar a “pergunta” dentro de cada opção
             p1.getOpcoes().forEach(o -> o.setPergunta(p1));
 
-            perguntaRepository.save(p1);
-
-
-            // Exemplo de Pergunta 2
             Pergunta p2 = new Pergunta();
             p2.setSinalUrl("https://dominio.com/sinal2.jpg");
             p2.setIndiceCorreto(1);
@@ -42,10 +35,15 @@ public class QuizDataInitializer {
             p2.getOpcoes().add(new Opcao("Opção D"));
             p2.getOpcoes().forEach(o -> o.setPergunta(p2));
 
-            perguntaRepository.save(p2);
+            // Lista de padrão
+            List<Pergunta> padrao = List.of(p1, p2);
 
-
-            // Você pode criar quantas perguntas quiser aqui
+            // Para cada pergunta padrão, só salva se ainda não existir
+            for (Pergunta p : padrao) {
+                if (!perguntaRepository.existsBySinalUrl(p.getSinalUrl())) {
+                    perguntaRepository.save(p);
+                }
+            }
         };
     }
 }

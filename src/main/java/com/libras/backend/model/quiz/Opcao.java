@@ -1,52 +1,32 @@
+// src/main/java/com/libras/backend/model/quiz/Opcao.java
 package com.libras.backend.model.quiz;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "OPCAO")
 public class Opcao {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "TEXTO", nullable = false)
+    @NotBlank(message = "O texto da opção não pode ficar em branco")
     private String texto;
 
-    /**
-     * Toda opção pertence a uma Pergunta.
-     * @JsonIgnore evita recursão no JSON.
-     */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PERGUNTA_ID")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pergunta_id")
     private Pergunta pergunta;
 
-    public Opcao() { }
+    public Opcao() {}
+    public Opcao(String texto) { this.texto = texto; }
 
-    public Opcao(String texto) {
-        this.texto = texto;
-    }
+    // getters e setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTexto() { return texto; }
+    public void setTexto(String texto) { this.texto = texto; }
 
-    public String getTexto() {
-        return texto;
-    }
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    public Pergunta getPergunta() {
-        return pergunta;
-    }
-    public void setPergunta(Pergunta pergunta) {
-        this.pergunta = pergunta;
-    }
+    public Pergunta getPergunta() { return pergunta; }
+    public void setPergunta(Pergunta pergunta) { this.pergunta = pergunta; }
 }

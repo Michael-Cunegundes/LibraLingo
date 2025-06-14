@@ -1,5 +1,6 @@
 package com.libras.backend.quiz;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,11 @@ import com.libras.backend.quiz.dto.ResultadoQuizDTO;
 @RequestMapping("/quiz")
 public class QuizController {
 
-    @Autowired
-    private QuizService quizService;
+    private final QuizService quizService;
+
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
 
     /**
      * GET /quiz
@@ -43,7 +47,7 @@ public class QuizController {
      */
     @PostMapping("/submit")
     public ResponseEntity<ResultadoQuizDTO> submitRespostas(
-            @RequestBody List<RespostaQuizDTO> respostas) {
+            @Valid @RequestBody List<RespostaQuizDTO> respostas) {
         ResultadoQuizDTO resultado = quizService.calculaResultado(respostas);
         return ResponseEntity.ok(resultado);
     }
@@ -54,7 +58,7 @@ public class QuizController {
      */
     @PostMapping("/respostas")
     public ResponseEntity<ResultadoQuizDTO> submitRespostasAlias(
-            @RequestBody List<RespostaQuizDTO> respostas) {
+            @Valid @RequestBody List<RespostaQuizDTO> respostas) {
         return submitRespostas(respostas);
     }
 }

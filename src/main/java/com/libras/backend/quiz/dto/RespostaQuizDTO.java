@@ -1,8 +1,17 @@
 package com.libras.backend.quiz.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class RespostaQuizDTO {
+
+    @NotNull(message = "O ID da pergunta é obrigatório")
     private Long perguntaId;
+
+    @NotNull(message = "Você deve escolher uma opção")
     private Integer opcaoEscolhida;
+
+//    private Long perguntaId;
+//    private Integer opcaoEscolhida;
 
     public RespostaQuizDTO() { }
 

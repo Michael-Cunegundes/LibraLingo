@@ -1,3 +1,4 @@
+// src/main/java/com/libras/backend/repository/quiz/PerguntaRepository.java
 package com.libras.backend.repository.quiz;
 
 import com.libras.backend.model.quiz.Pergunta;
@@ -6,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
-    // Se precisar de métodos de busca específicos, declare aqui.
-    // Exemplo:
-    // List<Pergunta> findByIndiceCorreto(Integer indice);
+    // Método para verificar existência por URL de sinal
+    boolean existsBySinalUrl(String sinalUrl);
 }
