@@ -23,7 +23,7 @@ class QuizDataInitializerTest {
     void existingQuestionsAreKept() throws Exception {
         // adiciona uma pergunta manualmente
         Pergunta p = new Pergunta();
-        p.setSinalUrl("preexistente");
+        p.setSinalUrl("prexistente");
         p.setIndiceCorreto(0);
         p.getOpcoes().add(new Opcao("A"));
         p.getOpcoes().forEach(o -> o.setPergunta(p));
