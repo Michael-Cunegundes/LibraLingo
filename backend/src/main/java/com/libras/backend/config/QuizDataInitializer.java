@@ -1,8 +1,8 @@
-package com.libras.backend.config;
+package com.libras.backend.backend.config;
 
-import com.libras.backend.model.quiz.Opcao;
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.service.PerguntaService;
+import com.libras.backend.backend.model.quiz.Opcao;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.service.PerguntaService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

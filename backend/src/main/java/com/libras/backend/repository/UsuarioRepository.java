@@ -1,6 +1,6 @@
-package com.libras.backend.repository;
+package com.libras.backend.backend.repository;
 
-import com.libras.backend.model.Usuario;
+import com.libras.backend.backend.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

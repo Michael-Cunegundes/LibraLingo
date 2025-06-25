@@ -1,9 +1,9 @@
 package com.libras.backend.controller.quiz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.libras.backend.model.quiz.Opcao;
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.service.PerguntaService;
+import com.libras.backend.backend.model.quiz.Opcao;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.service.PerguntaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

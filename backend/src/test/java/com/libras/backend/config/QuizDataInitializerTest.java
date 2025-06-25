@@ -1,8 +1,8 @@
-package com.libras.backend.config;
+package java.com.libras.backend.config;
 
-import com.libras.backend.model.quiz.Opcao;
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.repository.quiz.PerguntaRepository;
+import com.libras.backend.backend.model.quiz.Opcao;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.repository.quiz.PerguntaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

@@ -1,4 +1,4 @@
-package com.libras.backend.quiz.dto;
+package com.libras.backend.backend.quiz.dto;
 
 import jakarta.validation.constraints.NotNull;
 

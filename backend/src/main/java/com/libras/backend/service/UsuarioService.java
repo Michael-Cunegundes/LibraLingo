@@ -1,7 +1,7 @@
-package com.libras.backend.service;
+package com.libras.backend.backend.service;
 
-import com.libras.backend.model.Usuario;
-import com.libras.backend.repository.UsuarioRepository;
+import com.libras.backend.backend.model.Usuario;
+import com.libras.backend.backend.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.libras.backend.config;
+package com.libras.backend.backend.config;
 
 import java.util.Map;
 import java.util.stream.Collectors;

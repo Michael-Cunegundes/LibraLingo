@@ -1,7 +1,7 @@
 // src/main/java/com/libras/backend/repository/quiz/PerguntaRepository.java
-package com.libras.backend.repository.quiz;
+package com.libras.backend.backend.repository.quiz;
 
-import com.libras.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.model.quiz.Pergunta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

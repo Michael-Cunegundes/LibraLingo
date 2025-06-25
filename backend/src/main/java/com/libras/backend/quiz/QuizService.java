@@ -1,10 +1,10 @@
-package com.libras.backend.quiz;
+package com.libras.backend.backend.quiz;
 
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.quiz.dto.PerguntaDTO;
-import com.libras.backend.quiz.dto.RespostaQuizDTO;
-import com.libras.backend.quiz.dto.ResultadoQuizDTO;
-import com.libras.backend.repository.quiz.PerguntaRepository;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.quiz.dto.PerguntaDTO;
+import com.libras.backend.backend.quiz.dto.RespostaQuizDTO;
+import com.libras.backend.backend.quiz.dto.ResultadoQuizDTO;
+import com.libras.backend.backend.repository.quiz.PerguntaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

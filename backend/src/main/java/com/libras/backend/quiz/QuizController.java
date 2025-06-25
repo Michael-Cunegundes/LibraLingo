@@ -1,16 +1,16 @@
-package com.libras.backend.quiz;
+package com.libras.backend.backend.quiz;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;  // veja que importamos CrossOrigin
 import java.util.List;
-import com.libras.backend.quiz.dto.PerguntaDTO;
-import com.libras.backend.quiz.dto.RespostaQuizDTO;
-import com.libras.backend.quiz.dto.ResultadoQuizDTO;
+import com.libras.backend.backend.quiz.dto.PerguntaDTO;
+import com.libras.backend.backend.quiz.dto.RespostaQuizDTO;
+import com.libras.backend.backend.quiz.dto.ResultadoQuizDTO;
 
 @CrossOrigin(origins = "http://localhost:4300")  // ◀️ libera chamadas do Angular dev server
 @RestController
-@RequestMapping("/quiz")
+@RequestMapping("/java/com/libras/backend/quiz")
 public class QuizController {
 
     private final QuizService quizService;

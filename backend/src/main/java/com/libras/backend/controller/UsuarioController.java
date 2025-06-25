@@ -1,7 +1,7 @@
-package com.libras.backend.controller;
+package com.libras.backend.backend.controller;
 
-import com.libras.backend.model.Usuario;
-import com.libras.backend.service.UsuarioService;
+import com.libras.backend.backend.model.Usuario;
+import com.libras.backend.backend.service.UsuarioService;
 import jakarta.validation.Valid;              // <–– import do @Valid
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

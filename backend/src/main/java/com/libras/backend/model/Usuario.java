@@ -1,4 +1,4 @@
-package com.libras.backend.model;
+package com.libras.backend.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

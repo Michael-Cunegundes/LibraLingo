@@ -1,4 +1,4 @@
-package com.libras.backend.model.quiz;
+package com.libras.backend.backend.model.quiz;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

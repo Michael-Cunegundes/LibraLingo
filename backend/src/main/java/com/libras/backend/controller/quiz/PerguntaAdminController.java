@@ -1,7 +1,7 @@
-package com.libras.backend.controller.quiz;
+package com.libras.backend.backend.controller.quiz;
 
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.service.PerguntaService;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.service.PerguntaService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;  // traz @RequestBody, @RestController, @GetMapping etc.

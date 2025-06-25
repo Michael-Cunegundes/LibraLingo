@@ -1,7 +1,7 @@
-package com.libras.backend.service;
+package com.libras.backend.backend.service;
 
-import com.libras.backend.model.quiz.Pergunta;
-import com.libras.backend.repository.quiz.PerguntaRepository;
+import com.libras.backend.backend.model.quiz.Pergunta;
+import com.libras.backend.backend.repository.quiz.PerguntaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
