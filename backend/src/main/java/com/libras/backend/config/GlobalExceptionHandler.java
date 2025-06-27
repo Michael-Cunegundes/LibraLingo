@@ -13,14 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ——————————————————————————————————————————
-    // Aqui você pode manter outros handlers que já tiver
-    // ——————————————————————————————————————————
-
-    /**
-     * Captura todas as falhas de validação de @Valid em @RequestBody
-     * e devolve um JSON mapeando o nome do campo para a mensagem de erro.
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
