@@ -1,5 +1,6 @@
 package com.libras.backend.model.quiz;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Pergunta {
 
     @OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min = 1, message = "Deve haver ao menos uma opção")
+    @JsonManagedReference
     private List<Opcao> opcoes = new ArrayList<>();
 
     // getters e setters

@@ -1,4 +1,3 @@
-
 package com.libras.backend.repository.quiz;
 
 import com.libras.backend.model.quiz.Pergunta;

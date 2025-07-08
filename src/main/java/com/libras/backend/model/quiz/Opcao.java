@@ -1,5 +1,6 @@
 package com.libras.backend.model.quiz;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,6 +16,7 @@ public class Opcao {
 
     @ManyToOne
     @JoinColumn(name = "pergunta_id", nullable = false)
+    @JsonBackReference
     private Pergunta pergunta;
 
     // Construtor padrão (necessário para JPA)

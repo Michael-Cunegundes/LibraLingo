@@ -1,10 +1,13 @@
-package java.com.libras.backend.config;
+package com.libras.backend.config;
 
-import com.libras.backend.backend.model.quiz.Opcao;
-import com.libras.backend.backend.repository.quiz.PerguntaRepository;
+import com.libras.backend.model.quiz.Opcao;
+import com.libras.backend.model.quiz.Pergunta;
+import com.libras.backend.repository.quiz.PerguntaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.DefaultApplicationArguments;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,11 +19,11 @@ class QuizDataInitializerTest {
     private PerguntaRepository perguntaRepository;
 
     @Autowired
-    private CommandLineRunner populaPerguntas;
+    private ApplicationRunner populaPerguntas;
 
     @Test
     void existingQuestionsAreKept() throws Exception {
-        // adiciona uma pergunta manualmente
+        // prepara uma pergunta “manual”
         Pergunta p = new Pergunta();
         p.setSinalUrl("preexistente");
         p.setIndiceCorreto(0);
@@ -30,8 +33,8 @@ class QuizDataInitializerTest {
 
         long countBefore = perguntaRepository.count();
 
-        // Executa novamente o inicializador
-        populaPerguntas.run(new String[]{});
+        // executa o initializer
+        populaPerguntas.run(new DefaultApplicationArguments());
 
         long countAfter = perguntaRepository.count();
         assertThat(countAfter).isEqualTo(countBefore);

@@ -1,8 +1,9 @@
 package com.libras.backend.config;
 
 import com.libras.backend.model.quiz.Opcao;
-import com.libras.backend.backend.service.PerguntaService;
+import com.libras.backend.service.PerguntaService;
 import com.libras.backend.model.quiz.Pergunta;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,6 @@ import java.util.Arrays;
 
 @Component
 public class QuizDataInitializer implements ApplicationRunner {
-
     private final PerguntaService perguntaService;
 
     public QuizDataInitializer(PerguntaService perguntaService) {

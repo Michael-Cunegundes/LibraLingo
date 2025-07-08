@@ -1,6 +1,7 @@
 package com.libras.backend.controller.quiz;
 
-import com.libras.backend.backend.service.PerguntaService;
+import com.libras.backend.model.quiz.Pergunta;
+import com.libras.backend.service.PerguntaService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,10 @@ public class PerguntaAdminController {
     }
 
     @PostMapping
-    public ResponseEntity<com.libras.backend.backend.model.quiz.Pergunta> criar(
-            @Valid @RequestBody com.libras.backend.backend.model.quiz.Pergunta pergunta  // ◀— aqui
+    public ResponseEntity<com.libras.backend.model.quiz.Pergunta> criar(
+            @Valid @RequestBody com.libras.backend.model.quiz.Pergunta pergunta  // ◀— aqui
     ) {
-        com.libras.backend.backend.model.quiz.Pergunta salvo = service.salvar(pergunta);
+        com.libras.backend.model.quiz.Pergunta salvo = service.salvar(pergunta);
         URI uri = URI.create("/admin/perguntas/" + salvo.getId());
         return ResponseEntity.created(uri).body(salvo);
     }

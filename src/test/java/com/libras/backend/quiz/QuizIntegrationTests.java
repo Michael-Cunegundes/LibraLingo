@@ -1,8 +1,8 @@
 package com.libras.backend.quiz;
 
-import com.libras.backend.backend.quiz.dto.PerguntaDTO;
-import com.libras.backend.backend.quiz.dto.RespostaQuizDTO;
-import com.libras.backend.backend.quiz.dto.ResultadoQuizDTO;
+import com.libras.backend.quiz.dto.PerguntaDTO;
+import com.libras.backend.quiz.dto.RespostaQuizDTO;
+import com.libras.backend.quiz.dto.ResultadoQuizDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

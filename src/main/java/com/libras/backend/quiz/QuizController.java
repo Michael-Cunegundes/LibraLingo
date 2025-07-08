@@ -1,45 +1,46 @@
 package com.libras.backend.quiz;
 
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;  // veja que importamos CrossOrigin
-import java.util.List;
 import com.libras.backend.quiz.dto.PerguntaDTO;
 import com.libras.backend.quiz.dto.RespostaQuizDTO;
 import com.libras.backend.quiz.dto.ResultadoQuizDTO;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4300")  // ◀️ libera chamadas do Angular dev server
+import java.util.List;
+
+@CrossOrigin("http://localhost:4300")
 @RestController
 @RequestMapping("/java/com/libras/backend/quiz")
 public class QuizController {
 
-    private final com.libras.backend.backend.quiz.QuizService quizService;
+    private final QuizService quizService;
 
-    public QuizController(com.libras.backend.backend.quiz.QuizService quizService) {
+    public QuizController(QuizService quizService) {
         this.quizService = quizService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<PerguntaDTO>> getPerguntas() {
-        return ResponseEntity.ok(quizService.listarPerguntas());
+    @GetMapping            // GET /quiz
+    public List<PerguntaDTO> getPerguntas() {
+        return quizService.listarPerguntas();
     }
 
     @GetMapping("/perguntas")
-    public ResponseEntity<List<PerguntaDTO>> getPerguntasAlias() {
-        return getPerguntas();
+    public ResponseEntity<List<PerguntaDTO>> listarPerguntas() {
+        return ResponseEntity.ok(quizService.listarPerguntas());
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<ResultadoQuizDTO> submitRespostas(
+    public ResultadoQuizDTO submitRespostas(
             @Valid @RequestBody List<RespostaQuizDTO> respostas
     ) {
-        return ResponseEntity.ok(quizService.calculaResultado(respostas));
+        return quizService.calculaResultado(respostas);
     }
 
     @PostMapping("/respostas")
-    public ResponseEntity<ResultadoQuizDTO> submitRespostasAlias(
+    public ResultadoQuizDTO submitRespostasAlias(
             @Valid @RequestBody List<RespostaQuizDTO> respostas
     ) {
-        return submitRespostas(respostas);
+        return quizService.calculaResultado(respostas);
     }
 }
