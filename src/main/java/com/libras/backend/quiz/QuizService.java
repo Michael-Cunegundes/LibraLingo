@@ -1,3 +1,4 @@
+// src/main/java/com/libras/backend/quiz/QuizService.java
 package com.libras.backend.quiz;
 
 import com.libras.backend.quiz.dto.PerguntaDTO;
@@ -5,7 +6,6 @@ import com.libras.backend.quiz.dto.RespostaQuizDTO;
 import com.libras.backend.quiz.dto.ResultadoQuizDTO;
 import com.libras.backend.repository.quiz.PerguntaRepository;
 import com.libras.backend.model.quiz.Pergunta;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,53 +13,39 @@ import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
-    @Autowired
-    private PerguntaRepository perguntaRepository;
 
-    /**
-     * Retorna a lista de PerguntaDTO para o front-end,
-     * mapeando Pergunta (e suas Opcoes) para o DTO.
-     */
+    private final PerguntaRepository perguntaRepository;
+
+    public QuizService(PerguntaRepository perguntaRepository) {
+        this.perguntaRepository = perguntaRepository;
+    }
+
+    /** Retorna exatamente a estrutura esperada pelos testes (incluindo indiceCorreto) */
     public List<PerguntaDTO> listarPerguntas() {
-        List<Pergunta> todasEntidades = perguntaRepository.findAll();
-
-        return todasEntidades.stream()
-                .map(this::converterParaDTO)
+        return perguntaRepository.findAll().stream()
+                .map(p -> new PerguntaDTO(
+                        p.getId(),
+                        p.getSinalUrl(),
+                        p.getOpcoes()
+                                .stream()
+                                .map(o -> o.getTexto())
+                                .collect(Collectors.toList()),
+                        p.getIndiceCorreto()
+                ))
                 .collect(Collectors.toList());
     }
 
-    private PerguntaDTO converterParaDTO(Pergunta p) {
-        // Extrai somente o texto de cada Opcao
-        List<String> opcoesTexto = p.getOpcoes()
-                .stream()
-                .map(o -> o.getTexto())
-                .collect(Collectors.toList());
-        return new PerguntaDTO(
-                p.getId(),
-                p.getSinalUrl(),
-                opcoesTexto,
-                p.getIndiceCorreto()
-        );
-    }
-
-    /**
-     * Recebe lista de RespostaQuizDTO (perguntaId + opcaoEscolhida)
-     * e devolve um ResultadoQuizDTO calculado.
-     */
+    /** Calcula a pontuação a partir das respostas enviadas */
     public ResultadoQuizDTO calculaResultado(List<RespostaQuizDTO> respostas) {
         int acertos = 0;
         for (RespostaQuizDTO r : respostas) {
-            Long perguntaId = r.getPerguntaId();
-            Integer opcaoEscolhida = r.getOpcaoEscolhida();
-
-            // Busca a Pergunta no banco
-            Pergunta p = perguntaRepository.findById(perguntaId).orElse(null);
-            if (p != null && opcaoEscolhida != null
-                    && opcaoEscolhida.equals(p.getIndiceCorreto())) {
+            // r.getOpcaoEscolhida() agora sempre virá não nulo
+            Pergunta p = perguntaRepository.findById(r.getPerguntaId()).orElse(null);
+            if (p != null && r.getOpcaoEscolhida().equals(p.getIndiceCorreto())) {
                 acertos++;
             }
         }
-        String mensagem = String.format("Voce acertou %d de %d!", acertos, respostas.size());
+        String mensagem = String.format("Você acertou %d de %d!", acertos, respostas.size());
         return new ResultadoQuizDTO(acertos, mensagem);
     }
 }
