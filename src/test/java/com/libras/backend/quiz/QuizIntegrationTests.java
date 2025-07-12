@@ -1,6 +1,6 @@
 package com.libras.backend.quiz;
 
-import com.libras.backend.quiz.dto.PerguntaDTO;
+import com.libras.backend.quiz.dto.QuestaoDTO;
 import com.libras.backend.quiz.dto.RespostaQuizDTO;
 import com.libras.backend.quiz.dto.ResultadoQuizDTO;
 import org.junit.jupiter.api.Test;
@@ -22,32 +22,43 @@ class QuizIntegrationTests {
 
     @Test
     void perguntasEndpointRetornaLista() {
-        ResponseEntity<PerguntaDTO[]> response = restTemplate.getForEntity("/java/com/libras/backend/quiz/perguntas", PerguntaDTO[].class);
+        ResponseEntity<QuestaoDTO[]> response =
+                restTemplate.getForEntity("/api/quiz/perguntas", QuestaoDTO[].class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        PerguntaDTO[] body = response.getBody();
-        assertThat(body).isNotNull();
-        assertThat(body.length).isGreaterThan(0);
+        QuestaoDTO[] questoes = response.getBody();
+        assertThat(questoes).isNotNull().isNotEmpty();
+
+        QuestaoDTO q = questoes[0];
+        assertThat(q.getTipo()).isNotNull();
+        assertThat(q.getPrompt()).isNotBlank();
+        assertThat(q.getOpcoes()).isNotEmpty();
+        assertThat(q.getIndiceCorreto()).isGreaterThanOrEqualTo(0);
     }
 
     @Test
     void respostasEndpointCalculaPontuacao() {
-        ResponseEntity<PerguntaDTO[]> perguntasResp = restTemplate.getForEntity("/java/com/libras/backend/quiz/perguntas", PerguntaDTO[].class);
-        PerguntaDTO[] perguntas = perguntasResp.getBody();
-        assertThat(perguntas).isNotNull();
+        ResponseEntity<QuestaoDTO[]> perguntasResp =
+                restTemplate.getForEntity("/api/quiz/perguntas", QuestaoDTO[].class);
+        QuestaoDTO[] questoes = perguntasResp.getBody();
+        assertThat(questoes).isNotNull();
 
         List<RespostaQuizDTO> respostas = new ArrayList<>();
-        for (PerguntaDTO p : perguntas) {
-            respostas.add(new RespostaQuizDTO(p.getId(), p.getIndiceCorreto()));
+        for (QuestaoDTO q : questoes) {
+            respostas.add(new RespostaQuizDTO(q.getId(), q.getIndiceCorreto()));
         }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<List<RespostaQuizDTO>> request = new HttpEntity<>(respostas, headers);
 
-        ResponseEntity<ResultadoQuizDTO> resultadoResp = restTemplate.postForEntity("/java/com/libras/backend/quiz/respostas", request, ResultadoQuizDTO.class);
+        ResponseEntity<ResultadoQuizDTO> resultadoResp =
+                restTemplate.postForEntity("/api/quiz/respostas", request, ResultadoQuizDTO.class);
+
         assertThat(resultadoResp.getStatusCode()).isEqualTo(HttpStatus.OK);
         ResultadoQuizDTO resultado = resultadoResp.getBody();
         assertThat(resultado).isNotNull();
         assertThat(resultado.getPontuacao()).isEqualTo(respostas.size());
+        assertThat(resultado.getMensagem()).contains(String.valueOf(respostas.size()));
     }
 }

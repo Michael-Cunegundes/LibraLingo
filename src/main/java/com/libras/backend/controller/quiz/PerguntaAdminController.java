@@ -42,17 +42,15 @@ public class PerguntaAdminController {
     @PutMapping("/{id}")
     public ResponseEntity<Pergunta> atualizar(
             @PathVariable Long id,
-            @Valid @RequestBody Pergunta novaPergunta  // ◀— e aqui
+            @Valid @RequestBody Pergunta novaPergunta
     ) {
         return service.buscarPorId(id)
                 .map(existente -> {
-                    existente.setSinalUrl(novaPergunta.getSinalUrl());
+                    existente.setPrompt(novaPergunta.getPrompt());
+                    existente.setTipo(novaPergunta.getTipo());
                     existente.setIndiceCorreto(novaPergunta.getIndiceCorreto());
-                    existente.getOpcoes().clear();
-                    existente.getOpcoes().addAll(novaPergunta.getOpcoes());
-                    // se você tiver relacionamento bidirecional, não esqueça de:
-                    existente.getOpcoes()
-                            .forEach(o -> o.setPergunta(existente));
+                    // reaproveita o setter para ajustar as opções
+                    existente.setOpcoes(novaPergunta.getOpcoes());
                     Pergunta salvo = service.salvar(existente);
                     return ResponseEntity.ok(salvo);
                 })

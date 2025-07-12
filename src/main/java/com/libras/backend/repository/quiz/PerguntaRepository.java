@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
-    // Método para verificar existência por URL de sinal
-    boolean existsBySinalUrl(String sinalUrl);
+    boolean existsByPrompt(String prompt);
 }

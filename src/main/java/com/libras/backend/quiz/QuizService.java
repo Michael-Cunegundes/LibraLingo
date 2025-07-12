@@ -1,15 +1,11 @@
-// src/main/java/com/libras/backend/quiz/QuizService.java
 package com.libras.backend.quiz;
 
-import com.libras.backend.quiz.dto.PerguntaDTO;
-import com.libras.backend.quiz.dto.RespostaQuizDTO;
-import com.libras.backend.quiz.dto.ResultadoQuizDTO;
+import com.libras.backend.model.quiz.TipoPergunta;
+import com.libras.backend.quiz.dto.*;
 import com.libras.backend.repository.quiz.PerguntaRepository;
 import com.libras.backend.model.quiz.Pergunta;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -20,22 +16,30 @@ public class QuizService {
         this.perguntaRepository = perguntaRepository;
     }
 
-    /** Retorna exatamente a estrutura esperada pelos testes (incluindo indiceCorreto) */
-    public List<PerguntaDTO> listarPerguntas() {
+    public List<QuestaoDTO> listarPerguntas() {
         return perguntaRepository.findAll().stream()
-                .map(p -> new PerguntaDTO(
-                        p.getId(),
-                        p.getSinalUrl(),
-                        p.getOpcoes()
-                                .stream()
-                                .map(o -> o.getTexto())
-                                .collect(Collectors.toList()),
-                        p.getIndiceCorreto()
-                ))
-                .collect(Collectors.toList());
+                .map(p -> {
+                    List<OptionDTO> ops = p.getOpcoes().stream()
+                            .map(o -> {
+                                if (p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO) {
+                                    return new OptionDTO(o.getTexto(), null);
+                                } else {
+                                    return new OptionDTO(null, o.getTexto());
+                                }
+                            })
+                            .toList();
+
+                    return new QuestaoDTO(
+                            p.getId(),
+                            p.getTipo(),
+                            p.getPrompt(),
+                            ops,
+                            p.getIndiceCorreto()
+                    );
+                })
+                .toList();
     }
 
-    /** Calcula a pontuação a partir das respostas enviadas */
     public ResultadoQuizDTO calculaResultado(List<RespostaQuizDTO> respostas) {
         int acertos = 0;
         for (RespostaQuizDTO r : respostas) {

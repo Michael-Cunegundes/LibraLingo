@@ -12,11 +12,10 @@ public class Pergunta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "A URL do sinal não pode ficar em branco")
-//    private String sinalUrl;
+//    @NotBlank(message = "A URL do sinal não pode ficar em branco")
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "O tipo da pergunta não pode ser nulo")
     private TipoPergunta tipo;
 
     @NotBlank(message = "O prompt não pode ficar em branco")
@@ -26,21 +25,31 @@ public class Pergunta {
     @Min(0)
     private Integer indiceCorreto;
 
-//    @NotNull(message = "O índice correto não pode ser nulo")
-//    @Min(value = 0, message = "Índice correto inválido")
-//    private Integer indiceCorreto;
-
     @OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min = 1, message = "Deve haver ao menos uma opção")
     @JsonManagedReference
     private List<Opcao> opcoes = new ArrayList<>();
 
+    public TipoPergunta getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoPergunta tipo) {
+        this.tipo = tipo;
+    }
+
+    // GETTER / SETTER para 'prompt'
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+
     // getters e setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-//    public String getSinalUrl() { return sinalUrl; }
-//    public void setSinalUrl(String sinalUrl) { this.sinalUrl = sinalUrl; }
 
     public Integer getIndiceCorreto() { return indiceCorreto; }
     public void setIndiceCorreto(Integer indiceCorreto) { this.indiceCorreto = indiceCorreto; }

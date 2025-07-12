@@ -1,10 +1,10 @@
-package com.libras.backend.controller;
+package com.libras.backend.controller.quiz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.libras.backend.model.quiz.Opcao;
-import com.libras.backend.service.PerguntaService;
-import com.libras.backend.controller.quiz.PerguntaAdminController;
 import com.libras.backend.model.quiz.Pergunta;
+import com.libras.backend.model.quiz.TipoPergunta;
+import com.libras.backend.service.PerguntaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PerguntaAdminController.class)
@@ -41,14 +37,16 @@ class PerguntaAdminControllerTest {
     private Pergunta exemploPergunta() {
         Pergunta p = new Pergunta();
         p.setId(1L);
-        p.setSinalUrl("http://url");
+        p.setTipo(TipoPergunta.IMAGEM_PARA_TEXTO);
+        p.setPrompt("/images/oi.png");
         p.setIndiceCorreto(2);
-        p.getOpcoes().addAll(List.of(
+        p.setOpcoes(List.of(
                 new Opcao("A"),
                 new Opcao("B"),
                 new Opcao("C"),
                 new Opcao("D")
         ));
+        // vincula cada opção de volta à pergunta
         p.getOpcoes().forEach(o -> o.setPergunta(p));
         return p;
     }
@@ -56,25 +54,29 @@ class PerguntaAdminControllerTest {
     @Test
     @DisplayName("GET /admin/perguntas → lista todas")
     void deveListarTodasAsPerguntas() throws Exception {
-        List<Pergunta> lista = List.of(exemploPergunta());
+        var lista = List.of(exemploPergunta());
         given(service.listarTodas()).willReturn(lista);
 
         mockMvc.perform(get("/admin/perguntas"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[0].sinalUrl").value("http://url"));
+                .andExpect(jsonPath("$[0].tipo").value("IMAGEM_PARA_TEXTO"))
+                .andExpect(jsonPath("$[0].prompt").value("/images/oi.png"))
+                .andExpect(jsonPath("$[0].opcoes[0].texto").value("A"));
     }
 
     @Test
     @DisplayName("GET /admin/perguntas/1 → retorna 200 e a pergunta")
     void deveBuscarPerguntaPorId_quandoExistir() throws Exception {
-        Pergunta p = exemploPergunta();
+        var p = exemploPergunta();
         given(service.buscarPorId(1L)).willReturn(Optional.of(p));
 
         mockMvc.perform(get("/admin/perguntas/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.tipo").value("IMAGEM_PARA_TEXTO"))
+                .andExpect(jsonPath("$.prompt").value("/images/oi.png"))
                 .andExpect(jsonPath("$.indiceCorreto").value(2));
     }
 
@@ -103,7 +105,8 @@ class PerguntaAdminControllerTest {
                         .content(mapper.writeValueAsString(input)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/admin/perguntas/42"))
-                .andExpect(jsonPath("$.id").value(42));
+                .andExpect(jsonPath("$.id").value(42))
+                .andExpect(jsonPath("$.prompt").value("/images/oi.png"));
     }
 
     @Test
@@ -111,7 +114,7 @@ class PerguntaAdminControllerTest {
     void deveAtualizarPerguntaExistente() throws Exception {
         Pergunta existente = exemploPergunta();
         Pergunta atualizada = exemploPergunta();
-        atualizada.setSinalUrl("http://nova-url");
+        atualizada.setPrompt("/images/nova.png");
         atualizada.setIndiceCorreto(1);
 
         given(service.buscarPorId(1L)).willReturn(Optional.of(existente));
@@ -121,19 +124,18 @@ class PerguntaAdminControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(atualizada)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.sinalUrl").value("http://nova-url"))
+                .andExpect(jsonPath("$.prompt").value("/images/nova.png"))
                 .andExpect(jsonPath("$.indiceCorreto").value(1));
     }
 
     @Test
     @DisplayName("PUT /admin/perguntas/999 → retorna 404")
     void retorna404_quandoAtualizaPerguntaInexistente() throws Exception {
-        Pergunta p = exemploPergunta();
         given(service.buscarPorId(999L)).willReturn(Optional.empty());
 
         mockMvc.perform(put("/admin/perguntas/{id}", 999L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(p)))
+                        .content(mapper.writeValueAsString(exemploPergunta())))
                 .andExpect(status().isNotFound());
     }
 
