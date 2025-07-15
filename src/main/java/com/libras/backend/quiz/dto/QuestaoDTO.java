@@ -7,19 +7,20 @@ import java.util.List;
 public class QuestaoDTO {
     private final Long id;
     private final TipoPergunta tipo;
-    private final String prompt;
+    private List<String> prompt;
     private final List<OptionDTO> opcoes;
     private final Integer indiceCorreto;
 
     // construtores, getters e setters
 
-    public QuestaoDTO(Long id, TipoPergunta tipo, String prompt, List<OptionDTO> opcoes, Integer indiceCorreto) {
+    public QuestaoDTO(Long id, TipoPergunta tipo, List<String> prompt, List<OptionDTO> opcoes, Integer indiceCorreto) {
         this.id = id;
         this.tipo = tipo;
         this.prompt = prompt;
         this.opcoes = opcoes;
         this.indiceCorreto = indiceCorreto;
     }
+
 
     public Long getId() {
         return id;
@@ -29,7 +30,7 @@ public class QuestaoDTO {
         return tipo;
     }
 
-    public String getPrompt() {
+    public List<String> getPrompt() {
         return prompt;
     }
 

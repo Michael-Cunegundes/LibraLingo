@@ -32,7 +32,7 @@ public class QuizService {
                     return new QuestaoDTO(
                             p.getId(),
                             p.getTipo(),
-                            p.getPrompt(),
+                            List.of(p.getPrompt()),
                             ops,
                             p.getIndiceCorreto()
                     );
@@ -43,7 +43,6 @@ public class QuizService {
     public ResultadoQuizDTO calculaResultado(List<RespostaQuizDTO> respostas) {
         int acertos = 0;
         for (RespostaQuizDTO r : respostas) {
-            // r.getOpcaoEscolhida() agora sempre virá não nulo
             Pergunta p = perguntaRepository.findById(r.getPerguntaId()).orElse(null);
             if (p != null && r.getOpcaoEscolhida().equals(p.getIndiceCorreto())) {
                 acertos++;

@@ -40,7 +40,7 @@ class QuizControllerTest {
         QuestaoDTO dto = new QuestaoDTO(
                 1L,
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/oi.png",
+                List.of("/images/oi.png"),
                 List.of(new OptionDTO("Oi", null), new OptionDTO("Tchau", null)),
                 0
         );

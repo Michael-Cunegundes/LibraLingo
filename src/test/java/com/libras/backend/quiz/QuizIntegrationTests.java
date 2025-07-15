@@ -31,7 +31,7 @@ class QuizIntegrationTests {
 
         QuestaoDTO q = questoes[0];
         assertThat(q.getTipo()).isNotNull();
-        assertThat(q.getPrompt()).isNotBlank();
+        assertThat(q.getPrompt()).isNotEmpty();
         assertThat(q.getOpcoes()).isNotEmpty();
         assertThat(q.getIndiceCorreto()).isGreaterThanOrEqualTo(0);
     }
