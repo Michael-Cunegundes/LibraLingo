@@ -13,7 +13,6 @@ public class ResultadoQuizDTO {
         this.mensagem = mensagem;
     }
 
-    // Getters e setters
     public int getPontuacao() {
         return pontuacao;
     }
