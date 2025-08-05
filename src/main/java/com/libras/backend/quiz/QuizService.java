@@ -78,7 +78,7 @@ public class QuizService {
         return new QuestaoDTO(
                 p.getId(),
                 p.getTipo(),
-                List.of(p.getPrompt()),
+                List.of(p.getPrompt()),      // questões simples continuam com lista de 1
                 ops,
                 p.getIndiceCorreto()
         );
