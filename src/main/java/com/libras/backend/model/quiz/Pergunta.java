@@ -1,8 +1,14 @@
 package com.libras.backend.model.quiz;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.libras.backend.model.quiz.Opcao;
+import com.libras.backend.model.quiz.TipoPergunta;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +18,15 @@ public class Pergunta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotBlank(message = "A URL do sinal não pode ficar em branco")
+    @NotNull(message = "O nível não pode ser nulo")
+    private Integer level;               // ← NOVO CAMPO
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O tipo da pergunta não pode ser nulo")
     private TipoPergunta tipo;
 
     @NotBlank(message = "O prompt não pode ficar em branco")
-    private String prompt;         // URL da imagem ou texto puro
+    private String prompt;
 
     @NotNull
     @Min(0)
@@ -30,36 +37,54 @@ public class Pergunta {
     @JsonManagedReference
     private List<Opcao> opcoes = new ArrayList<>();
 
-    public TipoPergunta getTipo() {
-        return tipo;
+    // getters e setters existentes…
+
+    // ▶ GETTER / SETTER para 'level'
+    public Integer getLevel() {
+        return level;
     }
 
     public void setTipo(TipoPergunta tipo) {
         this.tipo = tipo;
     }
 
-    // GETTER / SETTER para 'prompt'
-    public String getPrompt() {
-        return prompt;
-    }
-
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
 
-    // getters e setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setIndiceCorreto(Integer indiceCorreto) {
+        this.indiceCorreto = indiceCorreto;
+    }
 
-    public Integer getIndiceCorreto() { return indiceCorreto; }
-    public void setIndiceCorreto(Integer indiceCorreto) { this.indiceCorreto = indiceCorreto; }
-
-    public List<Opcao> getOpcoes() { return opcoes; }
     public void setOpcoes(List<Opcao> opcoes) {
         this.opcoes.clear();
         if (opcoes != null) {
             opcoes.forEach(o -> o.setPergunta(this));
             this.opcoes.addAll(opcoes);
         }
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getIndiceCorreto() {
+        return indiceCorreto;
+    }
+
+    public List<Opcao> getOpcoes() {
+        return opcoes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public TipoPergunta getTipo() {
+        return tipo;
+    }
+
+    public String getPrompt() {
+        return prompt;
     }
 }
