@@ -22,7 +22,6 @@ public class QuizDataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         if (!perguntaService.listarTodas().isEmpty()) return;
 
-        // NÍVEL 1 (IMAGEM→TEXTO)
         perguntaService.salvar(cria(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/oi.png",
@@ -41,10 +40,23 @@ public class QuizDataInitializer implements ApplicationRunner {
                 List.of("Bom dia", "Tchau", "Oi"), 0));
         perguntaService.salvar(cria(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/obrigado1.png",
+                "/images/obrigado.png",
                 List.of("Obrigado", "Desculpa", "Por favor"), 0));
 
-        // NÍVEL 2 (TEXTO→IMAGEM)
+        // NÍVEL 1 – PERGUNTA 2 (TEXTO→IMAGEM)
+        perguntaService.salvar(cria(
+                TipoPergunta.TEXTO_PARA_IMAGEM,
+                "Obrigado",  // prompt textual
+                List.of(
+                        "/images/obrigado.png",  // CORRETA
+                        "/images/tchau.png",     // distração
+                        "/images/onibus.png",    // distração
+                        "/images/oi.png"         // distração
+                ),
+                0  // índice da opção certa
+        ));
+
+
         perguntaService.salvar(cria(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
                 "Tchau",
@@ -66,7 +78,7 @@ public class QuizDataInitializer implements ApplicationRunner {
                 "Desculpa",
                 List.of("/images/desculpa1.png", "/images/desculpa2.png", "/images/desculpa3.png"), 0));
 
-        // NÍVEL 3 (IMAGEM→TEXTO)
+
         perguntaService.salvar(cria(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/prazer.png",
@@ -88,7 +100,7 @@ public class QuizDataInitializer implements ApplicationRunner {
                 "/images/trem.png",
                 List.of("Trem", "Carro", "Ônibus"), 0));
 
-        // NÍVEL 4 (TEXTO→IMAGEM)
+
         perguntaService.salvar(cria(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
                 "Prazer",
@@ -110,7 +122,6 @@ public class QuizDataInitializer implements ApplicationRunner {
                 "Comida",
                 List.of("/images/comida.png", "/images/agua.png", "/images/fome.png"), 0));
 
-        // NÍVEL 5 (IMAGEM→TEXTO)
         perguntaService.salvar(cria(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/fome.png",
