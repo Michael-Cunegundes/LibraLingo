@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class QuizDataInitializer implements ApplicationRunner {
@@ -22,126 +23,24 @@ public class QuizDataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         if (!perguntaService.listarTodas().isEmpty()) return;
 
+        // Nível 1
         perguntaService.salvar(cria(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/oi.png",
-                List.of("Oi", "Tchau", "Bom dia"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/tchau.png",
-                List.of("Tchau", "Oi", "Boa noite"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/bomdia1.png",
-                List.of("Bom dia", "Boa noite", "Obrigado"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/bomdia2.png",
-                List.of("Bom dia", "Tchau", "Oi"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/obrigado.png",
-                List.of("Obrigado", "Desculpa", "Por favor"), 0));
-
-        // NÍVEL 1 – PERGUNTA 2 (TEXTO→IMAGEM)
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Obrigado",  // prompt textual
-                List.of(
-                        "/images/obrigado.png",  // CORRETA
-                        "/images/tchau.png",     // distração
-                        "/images/onibus.png",    // distração
-                        "/images/oi.png"         // distração
-                ),
-                0  // índice da opção certa
+                List.of("Oi","Tchau","Bom dia"),
+                0,
+                1        // ← nivel 1
         ));
 
-
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Tchau",
-                List.of("/images/tchau.png", "/images/oi.png", "/images/bomdia1.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Boa noite",
-                List.of("/images/boanoite1.png", "/images/boanoite2.png", "/images/bomdia2.png"), 0));
+        // Nível 2
         perguntaService.salvar(cria(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
                 "Obrigado",
-                List.of("/images/obrigado1.png", "/images/obrigado2.png", "/images/obrigado3.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Por favor",
-                List.of("/images/porfavor1.png", "/images/porfavor2.png", "/images/porfavor3.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Desculpa",
-                List.of("/images/desculpa1.png", "/images/desculpa2.png", "/images/desculpa3.png"), 0));
+                List.of("/images/obrigado.png"),
+                0,
+                2        // ← nivel 2
+        ));
 
-
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/prazer.png",
-                List.of("Prazer", "Oi", "Bom dia"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/onibus.png",
-                List.of("Ônibus", "Carro", "Trem"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/agua.png",
-                List.of("Água", "Comida", "Fome"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/cafe.png",
-                List.of("Café", "Chá", "Leite"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/trem.png",
-                List.of("Trem", "Carro", "Ônibus"), 0));
-
-
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Prazer",
-                List.of("/images/prazer.png", "/images/agua.png", "/images/cafe.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Ônibus",
-                List.of("/images/onibus.png", "/images/trem.png", "/images/carro.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Água",
-                List.of("/images/agua.png", "/images/comida.png", "/images/fome.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Café",
-                List.of("/images/cafe.png", "/images/cha.png", "/images/leite.png"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Comida",
-                List.of("/images/comida.png", "/images/agua.png", "/images/fome.png"), 0));
-
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/fome.png",
-                List.of("Fome", "Sede", "Sono"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/sono.png",
-                List.of("Sono", "Fome", "Sede"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/cha.png",
-                List.of("Chá", "Café", "Leite"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/leite.png",
-                List.of("Leite", "Água", "Café"), 0));
-        perguntaService.salvar(cria(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/desculpa1.png",
-                List.of("Desculpa", "Obrigado", "Por favor"), 0));
     }
 
 
@@ -149,16 +48,17 @@ public class QuizDataInitializer implements ApplicationRunner {
             TipoPergunta tipo,
             String prompt,
             List<String> opcoes,
-            int indiceCorreto
+            int indiceCorreto,
+            int level    // ← novo parâmetro
     ) {
         Pergunta p = new Pergunta();
+        p.setLevel(level);          // ← definindo nível
         p.setTipo(tipo);
         p.setPrompt(prompt);
         p.setIndiceCorreto(indiceCorreto);
         p.setOpcoes(opcoes.stream()
-                .map(Opcao::new)
-                .toList()
-        );
+                .map(o -> new Opcao(o))
+                .collect(Collectors.toList()));
         return p;
     }
 }

@@ -3,6 +3,7 @@ package com.libras.backend.quiz;
 import com.libras.backend.quiz.dto.QuestaoDTO;
 import com.libras.backend.quiz.dto.RespostaQuizDTO;
 import com.libras.backend.quiz.dto.ResultadoQuizDTO;
+import com.libras.backend.service.PerguntaService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping({ "/api/quiz"})
 public class QuizController {
+
+    @GetMapping("/levels/{level}/questions")
+    public List<QuestaoDTO> porNivel(@PathVariable Integer level) {
+        PerguntaService perguntaService = null;
+        return perguntaService.listarPorNivel(level);
+    }
+
 
     private final QuizService quizService;
 
