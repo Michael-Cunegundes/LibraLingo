@@ -38,6 +38,9 @@ public class Pergunta {
     private List<Opcao> opcoes = new ArrayList<>();
 
     // getters e setters existentes…
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     // ▶ GETTER / SETTER para 'level'
     public Integer getLevel() {

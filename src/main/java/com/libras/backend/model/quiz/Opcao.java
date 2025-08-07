@@ -15,6 +15,12 @@ public class Opcao {
     @NotBlank(message = "O texto da opção não pode ficar em branco")
     private String texto;
 
+    private String imagemUrl;
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+
     @ManyToOne
     @JoinColumn(name = "pergunta_id", nullable = false)
     @JsonBackReference
@@ -37,4 +43,8 @@ public class Opcao {
 
     public Pergunta getPergunta() { return pergunta; }
     public void setPergunta(Pergunta pergunta) { this.pergunta = pergunta; }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
 }

@@ -35,12 +35,6 @@ public class PerguntaService {
                 .toList();
     }
 
-    private final PerguntaRepository repo;
-
-    public PerguntaService(PerguntaRepository repo) {
-        this.repo = repo;
-    }
-
     // 1) Listar todas
     public List<Pergunta> listarTodas() {
         return repo.findAll();
