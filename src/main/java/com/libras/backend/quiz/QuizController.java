@@ -11,34 +11,29 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping({ "/api/quiz"})
+@RequestMapping("/api/quiz")
 public class QuizController {
+
+    private final QuizService quizService;
+    private final PerguntaService perguntaService;
+
+    public QuizController(QuizService quizService, PerguntaService perguntaService) {
+        this.quizService = quizService;
+        this.perguntaService = perguntaService;
+    }
 
     @GetMapping("/levels/{level}/questions")
     public List<QuestaoDTO> porNivel(@PathVariable Integer level) {
-        PerguntaService perguntaService = null;
         return perguntaService.listarPorNivel(level);
     }
 
-
-    private final QuizService quizService;
-
-    public QuizController(QuizService quizService) {
-        this.quizService = quizService;
-    }
-
-    // GET /api/quiz/perguntas  (e /java/.../perguntas)
     @GetMapping("/perguntas")
     public List<QuestaoDTO> listarPerguntas() {
         return quizService.listarPerguntas();
     }
 
-
-    // POST /api/quiz/respostas  (e /java/.../respostas)
     @PostMapping("/respostas")
-    public ResultadoQuizDTO enviarRespostas(
-            @Valid @RequestBody List<RespostaQuizDTO> respostas
-    ) {
+    public ResultadoQuizDTO enviarRespostas(@Valid @RequestBody List<RespostaQuizDTO> respostas) {
         return quizService.calculaResultado(respostas);
     }
 }
