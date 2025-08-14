@@ -10,9 +10,6 @@ public class RespostaQuizDTO {
     @NotNull(message = "Você deve escolher uma opção")
     private Integer opcaoEscolhida;
 
-//    private Long perguntaId;
-//    private Integer opcaoEscolhida;
-
     public RespostaQuizDTO() { }
 
     public RespostaQuizDTO(Long perguntaId, Integer opcaoEscolhida) {
@@ -20,7 +17,6 @@ public class RespostaQuizDTO {
         this.opcaoEscolhida = opcaoEscolhida;
     }
 
-    // Getters e setters
     public Long getPerguntaId() { return perguntaId; }
     public void setPerguntaId(Long perguntaId) { this.perguntaId = perguntaId; }
 
