@@ -24,118 +24,97 @@ public class QuizDataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        log.info("=== INICIANDO SEED DE DADOS LIBRALINGO ===");
+        log.info("🚀 Inicializando dados do quiz...");
 
-        List<Pergunta> existentes = perguntaService.listarTodas();
-        if (!existentes.isEmpty()) {
-            log.info("Base já possui {} perguntas. Pulando seed.", existentes.size());
+        if (!perguntaService.listarTodas().isEmpty()) {
+            log.info("✅ Dados já existem, pulando inicialização");
             return;
         }
 
-        log.info("Criando dados para Nível 1 - Cumprimentos...");
-
-        try {
-            criarNivel1();
-            log.info("=== SEED NÍVEL 1 CONCLUÍDO COM SUCESSO ===");
-            log.info("Total de perguntas criadas: {}", perguntaService.listarTodas().size());
-
-        } catch (Exception e) {
-            log.error("ERRO durante seed de dados: {}", e.getMessage(), e);
-            throw new RuntimeException("Falha no seed de dados", e);
-        }
+        criarPerguntasNivel1();
+        log.info("✅ Dados do quiz inicializados com sucesso!");
     }
 
-    private void criarNivel1() {
-        log.info("📝 Criando questões do Nível 1...");
+    private void criarPerguntasNivel1() {
+        log.info("📚 Criando perguntas do nível 1...");
 
-        // Questão 1: IMAGEM→TEXTO (Oi)
-        Pergunta q1 = criarPergunta(
+        // Pergunta 1: OI (Imagem → Texto)
+        perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/oi.png",
-                List.of("Oi", "Tchau", "Bom dia", "Boa noite"),
-                0, // "Oi" está no índice 0
-                1
-        );
-        perguntaService.salvar(q1);
-        log.info("✅ Questão 1 criada: Oi (IMAGEM→TEXTO)");
+                List.of("Oi", "Tchau", "Obrigado", "Por favor"),
+                0,  // "Oi" é a opção correta (índice 0)
+                1   // Nível 1
+        ));
 
-        // Questão 2: IMAGEM→TEXTO (Bom dia)
-        Pergunta q2 = criarPergunta(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/bomdia.png",
-                List.of("Boa noite", "Bom dia", "Obrigado", "Tchau"),
-                1, // "Bom dia" está no índice 1
-                1
-        );
-        perguntaService.salvar(q2);
-        log.info("✅ Questão 2 criada: Bom dia (IMAGEM→TEXTO)");
-
-        // Questão 3: IMAGEM→TEXTO (Boa noite)
-        Pergunta q3 = criarPergunta(
-                TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/boanoite.png",
-                List.of("Bom dia", "Oi", "Boa noite", "Obrigado"),
-                2, // "Boa noite" está no índice 2
-                1
-        );
-        perguntaService.salvar(q3);
-        log.info("✅ Questão 3 criada: Boa noite (IMAGEM→TEXTO)");
-
-        // Questão 4: IMAGEM→TEXTO (Obrigado)
-        Pergunta q4 = criarPergunta(
+        // Pergunta 2: OBRIGADO (Imagem → Texto)
+        perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/obrigado.png",
-                List.of("Tchau", "Oi", "Bom dia", "Obrigado"),
-                3, // "Obrigado" está no índice 3
+                List.of("Tchau", "Obrigado", "Desculpa", "Oi"),
+                1,  // "Obrigado" é a opção correta (índice 1)
                 1
-        );
-        perguntaService.salvar(q4);
-        log.info("✅ Questão 4 criada: Obrigado (IMAGEM→TEXTO)");
+        ));
 
-        // Questão 5: TEXTO→IMAGEM (Tchau)
-        Pergunta q5 = criarPergunta(
+        // Pergunta 3: TCHAU (Imagem → Texto)
+        perguntaService.salvar(criarPergunta(
+                TipoPergunta.IMAGEM_PARA_TEXTO,
+                "/images/tchau.png",
+                List.of("Oi", "Obrigado", "Tchau", "Bom dia"),
+                2,  // "Tchau" é a opção correta (índice 2)
+                1
+        ));
+
+        // Pergunta 4: POR FAVOR (Texto → Imagem)
+        perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Tchau",
-                List.of("/images/tchau.png", "/images/oi.png", "/images/bomdia.png", "/images/obrigado.png"),
-                0, // "/images/tchau.png" está no índice 0
+                "Por favor",
+                List.of("/images/obrigado.png", "/images/por-favor.png", "/images/tchau.png"),
+                1,  // "/images/por-favor.png" é a opção correta (índice 1)
                 1
-        );
-        perguntaService.salvar(q5);
-        log.info("✅ Questão 5 criada: Tchau (TEXTO→IMAGEM)");
+        ));
+
+        // Pergunta 5: BOM DIA (Imagem → Texto)
+        perguntaService.salvar(criarPergunta(
+                TipoPergunta.IMAGEM_PARA_TEXTO,
+                "/images/bom-dia.png",
+                List.of("Boa tarde", "Boa noite", "Bom dia", "Oi"),
+                2,  // "Bom dia" é a opção correta (índice 2)
+                1
+        ));
+
+        log.info("✅ 5 perguntas do nível 1 criadas");
     }
 
-    private Pergunta criarPergunta(TipoPergunta tipo, String prompt, List<String> opcoes,
-                                   int indiceCorreto, int level) {
+    private Pergunta criarPergunta(
+            TipoPergunta tipo,
+            String prompt,
+            List<String> opcoes,
+            int indiceCorreto,
+            int level
+    ) {
+        Pergunta pergunta = new Pergunta();
+        pergunta.setLevel(level);
+        pergunta.setTipo(tipo);
+        pergunta.setPrompt(prompt);
+        pergunta.setIndiceCorreto(indiceCorreto);
 
-        log.debug("Criando pergunta - Nível: {}, Tipo: {}, Prompt: {}", level, tipo, prompt);
-
-        Pergunta p = new Pergunta();
-        p.setLevel(level);
-        p.setTipo(tipo);
-        p.setPrompt(prompt);
-        p.setIndiceCorreto(indiceCorreto);
-        p.setOpcoes(mapearOpcoes(tipo, opcoes));
-
-        return p;
-    }
-
-    private List<Opcao> mapearOpcoes(TipoPergunta tipo, List<String> valores) {
-        return valores.stream().map(valor -> {
+        // Mapeia as opções baseado no tipo da pergunta
+        List<Opcao> opcoesMapeadas = opcoes.stream().map(valor -> {
             Opcao opcao = new Opcao();
-
             if (tipo == TipoPergunta.TEXTO_PARA_IMAGEM) {
-                // Para TEXTO→IMAGEM, valor é URL da imagem
+                // Para TEXTO→IMAGEM, o valor é uma URL de imagem
                 opcao.setTexto(null);
                 opcao.setImagemUrl(valor);
-                log.debug("   → Opção imagem: {}", valor);
             } else {
-                // Para IMAGEM→TEXTO, valor é o texto
+                // Para IMAGEM→TEXTO, o valor é texto
                 opcao.setTexto(valor);
                 opcao.setImagemUrl(null);
-                log.debug("   → Opção texto: {}", valor);
             }
-
             return opcao;
         }).toList();
+
+        pergunta.setOpcoes(opcoesMapeadas);
+        return pergunta;
     }
 }
