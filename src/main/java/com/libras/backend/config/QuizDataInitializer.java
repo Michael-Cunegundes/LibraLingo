@@ -65,19 +65,19 @@ public class QuizDataInitializer implements ApplicationRunner {
                 1
         ));
 
-        // Pergunta 4: POR FAVOR (Texto → Imagem)
+        // Pergunta 4: Obrigado (Texto → Imagem)
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Por favor",
-                List.of("/images/obrigado.png", "/images/por-favor.png", "/images/tchau.png"),
-                1,  // "/images/por-favor.png" é a opção correta (índice 1)
+                "Obrigado",
+                List.of("/images/obrigado.png", "/images/onibus.png", "/images/tchau.png", "/images/sol.png"),
+                0,  // "/images/por-favor.png" é a opção correta (índice 1)
                 1
         ));
 
         // Pergunta 5: BOM DIA (Imagem → Texto)
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/bom-dia.png",
+                "/images/bomdia.png",
                 List.of("Boa tarde", "Boa noite", "Bom dia", "Oi"),
                 2,  // "Bom dia" é a opção correta (índice 2)
                 1
