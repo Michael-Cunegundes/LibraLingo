@@ -19,10 +19,6 @@ public class PerguntaDTO {
     @NotNull(message = "O índice correto deve ser informado")
     private Integer indiceCorreto;
 
-//    private Long id;
-//    private String sinalUrl;
-//    private List<String> opcoes;
-//    private Integer indiceCorreto;
 
     public PerguntaDTO() { }
 

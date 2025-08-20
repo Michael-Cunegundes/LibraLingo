@@ -1,6 +1,7 @@
 package com.libras.backend.quiz.dto;
 
 public class OptionDTO {
+
     private String texto;      // só para IMAGEM→TEXTO
     private String imagemUrl;  // só para TEXTO→IMAGEM
 
