@@ -50,7 +50,7 @@ public class QuizDataInitializer implements ApplicationRunner {
         // 1. UM (Imagem → Texto)
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/nivel1/um.png",
+                "/images/nivel1/oi.png",
                 List.of("Um", "Dois", "Três", "Quatro"),
                 0, // "Um" é correto
                 1
