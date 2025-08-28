@@ -1,21 +1,27 @@
+// Substitua completamente o conteúdo do seu QuizService.java
 package com.libras.backend.quiz;
 
 import com.libras.backend.model.quiz.Pergunta;
 import com.libras.backend.model.quiz.TipoPergunta;
 import com.libras.backend.quiz.dto.OptionDTO;
-import com.libras.backend.quiz.dto.PerguntaDTO;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import com.libras.backend.quiz.dto.QuestaoDTO;
 import com.libras.backend.quiz.dto.RespostaQuizDTO;
 import com.libras.backend.quiz.dto.ResultadoQuizDTO;
 import com.libras.backend.repository.quiz.PerguntaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class QuizService {
 
+    private static final Logger log = LoggerFactory.getLogger(QuizService.class);
     private final PerguntaRepository perguntaRepository;
 
     public QuizService(PerguntaRepository perguntaRepository) {
@@ -24,76 +30,64 @@ public class QuizService {
 
     public List<QuestaoDTO> listarPerguntas() {
         List<Pergunta> todas = perguntaRepository.findAll();
-
-        // Filtra as duas partes de “bom dia”
-        List<Pergunta> partesBomDia = todas.stream()
-                .filter(p -> p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO
-                        && p.getPrompt().contains("bomdiapart"))
-                .toList();
-
-        if (partesBomDia.size() >= 2) {
-            Pergunta p0 = partesBomDia.get(0);
-            Pergunta p1 = partesBomDia.get(1);
-
-            // Opções (texto) de uma delas
-            List<OptionDTO> ops = p0.getOpcoes().stream()
-                    .map(o -> new OptionDTO(o.getTexto(), null))
-                    .toList();
-
-            // Questão única com ambos os prompts
-            QuestaoDTO bomDia = new QuestaoDTO(
-                    p0.getId(),
-                    TipoPergunta.IMAGEM_PARA_TEXTO,
-                    List.of(p0.getPrompt(), p1.getPrompt()),
-                    ops,
-                    p0.getIndiceCorreto()
-            );
-
-            // Mapeia o resto normalmente
-            List<QuestaoDTO> resto = todas.stream()
-                    .filter(p -> !partesBomDia.contains(p))
-                    .map(this::toDTO)
-                    .toList();
-
-            // Junta tudo
-            List<QuestaoDTO> resultado = new ArrayList<>();
-            resultado.add(bomDia);
-            resultado.addAll(resto);
-            return resultado;
-        }
-
-        // Se não tiver as duas partes, devolve tudo mapeado normalmente
-        return todas.stream()
-                .map(this::toDTO)
-                .toList();
+        return todas.stream().map(this::toDTO).toList();
     }
 
     private QuestaoDTO toDTO(Pergunta p) {
+        List<String> promptList = new ArrayList<>();
+
+        // Verificar se há múltiplas imagens
+        if (p.getPrompt() != null && p.getPrompt().contains(",")) {
+            // Dividir manualmente
+            String[] partes = p.getPrompt().split(",");
+            for (String parte : partes) {
+                String parteLimpa = parte.trim();
+                if (!parteLimpa.isEmpty()) {
+                    promptList.add(parteLimpa);
+                }
+            }
+        } else {
+            promptList.add(p.getPrompt());
+        }
+
         List<OptionDTO> ops = p.getOpcoes().stream()
-                .map(o -> p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO
-                        ? new OptionDTO(o.getTexto(), null)
-                        : new OptionDTO(null, o.getTexto()))
+                .map(o -> {
+                    if (p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO) {
+                        return new OptionDTO(o.getTexto(), null);
+                    } else {
+                        return new OptionDTO(null, o.getImagemUrl());
+                    }
+                })
                 .toList();
 
-        return new QuestaoDTO(
-                p.getId(),
-                p.getTipo(),
-                List.of(p.getPrompt()),      // questões simples continuam com lista de 1
-                ops,
-                p.getIndiceCorreto()
-        );
+        return new QuestaoDTO(p.getId(), p.getTipo(), promptList, ops, p.getIndiceCorreto());
     }
 
-    // ←—— este método estava faltando
     public ResultadoQuizDTO calculaResultado(List<RespostaQuizDTO> respostas) {
         int acertos = 0;
-        for (RespostaQuizDTO r : respostas) {
-            Pergunta p = perguntaRepository.findById(r.getPerguntaId()).orElse(null);
-            if (p != null && r.getOpcaoEscolhida().equals(p.getIndiceCorreto())) {
+        int total = respostas.size();
+
+        for (RespostaQuizDTO resposta : respostas) {
+            Pergunta pergunta = perguntaRepository.findById(resposta.getPerguntaId()).orElse(null);
+            if (pergunta != null && resposta.getOpcaoEscolhida().equals(pergunta.getIndiceCorreto())) {
                 acertos++;
             }
         }
-        String mensagem = String.format("Você acertou %d de %d!", acertos, respostas.size());
+
+        String mensagem;
+        double percentual = (acertos * 100.0) / total;
+
+        if (percentual >= 80) {
+            mensagem = String.format("Excelente! Você acertou %d de %d perguntas (%.0f%%). Continue assim!",
+                    acertos, total, percentual);
+        } else if (percentual >= 60) {
+            mensagem = String.format("Bom trabalho! Você acertou %d de %d perguntas (%.0f%%). Pratique mais um pouco!",
+                    acertos, total, percentual);
+        } else {
+            mensagem = String.format("Você acertou %d de %d perguntas (%.0f%%). Que tal revisar o conteúdo?",
+                    acertos, total, percentual);
+        }
+
         return new ResultadoQuizDTO(acertos, mensagem);
     }
 }
