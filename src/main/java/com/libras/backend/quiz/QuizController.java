@@ -31,36 +31,29 @@ public class QuizController {
 
     @GetMapping("/levels/{level}/questions")
     public ResponseEntity<List<QuestaoDTO>> buscarQuestoesPorNivel(@PathVariable Integer level) {
-        log.info("🎮 === SOLICITAÇÃO QUIZ NÍVEL {} === [{}]", level, LocalDateTime.now());
+        log.info("🎮 === SOLICITAÇÃO QUIZ NÍVEL {} ===", level);
 
         try {
-            // Validação básica
-            if (level < 1 || level > 5) {
-                log.warn("⚠️ Nível inválido solicitado: {}", level);
-                return ResponseEntity.badRequest().build();
-            }
-
             List<QuestaoDTO> questoes = perguntaService.listarPorNivel(level);
 
-            if (questoes.isEmpty()) {
-                log.warn("⚠️ Nível {} sem questões disponíveis", level);
-                return ResponseEntity.noContent().build();
+            // DEBUG: Verificar o que está sendo retornado
+            for (QuestaoDTO q : questoes) {
+                log.info("Questão ID {}: tipo={}, prompt={}",
+                        q.getId(), q.getTipo(), q.getPrompt());
+
+                // Se for a primeira pergunta do nível 1, log detalhado
+                if (level == 1 && q.getId() == 1) {
+                    log.info("🔍 DEBUG Pergunta 1: ");
+                    log.info("  - Tipo: {}", q.getTipo());
+                    log.info("  - Prompt lista: {}", q.getPrompt());
+                    log.info("  - Quantidade de imagens: {}", q.getPrompt().size());
+                    for (int i = 0; i < q.getPrompt().size(); i++) {
+                        log.info("  - Imagem {}: {}", i+1, q.getPrompt().get(i));
+                    }
+                }
             }
 
-            // Log do conteúdo retornado - CORRIGIDO
-            log.info("✅ Retornando {} questões para nível {}", questoes.size(), level);
-
-            // Usando AtomicInteger para ter índice no forEach
-            AtomicInteger index = new AtomicInteger(1);
-            questoes.forEach(q ->
-                    log.debug("   {}. {} - {} opcoes",
-                            index.getAndIncrement(),
-                            q.getTipo(),
-                            q.getOpcoes().size())
-            );
-
             return ResponseEntity.ok(questoes);
-
         } catch (Exception e) {
             log.error("❌ Erro ao buscar questões do nível {}: {}", level, e.getMessage(), e);
             return ResponseEntity.status(500).build();

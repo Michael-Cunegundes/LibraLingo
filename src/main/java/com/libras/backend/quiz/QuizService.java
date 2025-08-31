@@ -36,20 +36,31 @@ public class QuizService {
     private QuestaoDTO toDTO(Pergunta p) {
         List<String> promptList = new ArrayList<>();
 
-        // Verificar se há múltiplas imagens
-        if (p.getPrompt() != null && p.getPrompt().contains(",")) {
-            // Dividir manualmente
-            String[] partes = p.getPrompt().split(",");
-            for (String parte : partes) {
-                String parteLimpa = parte.trim();
-                if (!parteLimpa.isEmpty()) {
-                    promptList.add(parteLimpa);
+        // CORREÇÃO: Processar múltiplas imagens separadas por vírgula
+        if (p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO && p.getPrompt() != null) {
+            // Se contém vírgula, é múltiplas imagens
+            if (p.getPrompt().contains(",")) {
+                String[] imagens = p.getPrompt().split(",");
+                for (String imagem : imagens) {
+                    String imagemLimpa = imagem.trim();
+                    if (!imagemLimpa.isEmpty()) {
+                        promptList.add(imagemLimpa);
+                    }
                 }
+            } else {
+                // Uma única imagem
+                promptList.add(p.getPrompt().trim());
             }
         } else {
+            // Para TEXTO_PARA_IMAGEM, é sempre texto simples
             promptList.add(p.getPrompt());
         }
 
+        // Log para debug
+        log.debug("Pergunta ID {}: tipo={}, prompt original='{}', prompt processado={}",
+                p.getId(), p.getTipo(), p.getPrompt(), promptList);
+
+        // Mapear opções
         List<OptionDTO> ops = p.getOpcoes().stream()
                 .map(o -> {
                     if (p.getTipo() == TipoPergunta.IMAGEM_PARA_TEXTO) {
