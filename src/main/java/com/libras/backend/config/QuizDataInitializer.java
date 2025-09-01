@@ -72,7 +72,7 @@ public class QuizDataInitializer implements ApplicationRunner {
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
                 "Obrigado",
-                List.of("/images/obrigado.png", "/images/idade.png", "/images/tchau1.png", "/images/bomdia4.png"),
+                List.of("/images/obrigado2.png", "/images/idade.png", "/images/tchau1.png", "/images/bomdia4.png"),
                 0, // Primeira imagem é correta
                 1
         ));
@@ -90,50 +90,50 @@ public class QuizDataInitializer implements ApplicationRunner {
     }
 
     private void criarNivel2_Numeros() {
-        log.info("🔢 Criando Nível 2: Números em LIBRAS...");
+        log.info("🔢 Nível 2: Conversas contidianas");
 
-        // 1. UM - IMAGEM → TEXTO
+        // 1. Bom dia - IMAGEM → TEXTO
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/nivel2/um.png",
-                List.of("Zero", "Um", "Dois", "Três"),
-                1, // "Um" é correto
+                "/images/bomdia1.png,/images/bomdia2.png,/images/bomdia3.png,/images/bomdia4.png",
+                List.of("Bom dia", "Tudo bem?", "Prazer em conhecer", "Boa tarde"),
+                0,
                 2
         ));
 
-        // 2. DOIS - IMAGEM → TEXTO
+        // 2. Eu vou - IMAGEM → TEXTO
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/nivel2/dois.png",
-                List.of("Um", "Dois", "Três", "Quatro"),
-                1, // "Dois" é correto
+                "/images/eu1.png,/images/ir1.png",
+                List.of("Eu sou", "Tenho fome", "Eu vou", "Eu e voce"),
+                2, //
                 2
         ));
 
-        // 3. TRÊS - IMAGEM → TEXTO
+        // 3. Onibus - IMAGEM → TEXTO
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/nivel2/tres.png",
-                List.of("Dois", "Três", "Quatro", "Cinco"),
-                1, // "Três" é correto
+                "/images/onibus1.png,/images/onibus2.png",
+                List.of("Carro", "Moto", "Onibus", "Trem"),
+                2,
                 2
         ));
 
-        // 4. QUATRO - TEXTO → IMAGEM
+        // 4. Carro - TEXTO → IMAGEM
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Quatro",
-                List.of("/images/nivel2/quatro.png", "/images/nivel2/tres.png", "/images/nivel2/cinco.png", "/images/nivel2/um.png"),
-                0, // Primeira imagem é correta
+                "Carro",
+                List.of("/images/moto1.png", "/images/onibus1.png", "/images/idade.png", "/images/carro1.png"),
+                3, // Primeira imagem é correta
                 2
         ));
 
-        // 5. CINCO - TEXTO → IMAGEM
+        // 5. Casa - TEXTO → IMAGEM
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Cinco",
-                List.of("/images/nivel2/cinco.png", "/images/nivel2/quatro.png", "/images/nivel2/dois.png", "/images/nivel2/tres.png"),
-                0, // Primeira imagem é correta
+                "Casa",
+                List.of("/images/gemini1.png", "/images/casa1.png", "/images/idade.png", "/images/joia1.png"),
+                1, // Primeira imagem é correta
                 2
         ));
 
