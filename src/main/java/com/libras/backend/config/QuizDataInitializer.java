@@ -132,7 +132,7 @@ public class QuizDataInitializer implements ApplicationRunner {
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
                 "Casa",
-                List.of("/images/gemini1.png", "/images/casa1.png", "/images/idade.png", "/images/joia1.png"),
+                List.of("/images/gemini1.png", "/images/casa1.png", "/images/moto1.png", "/images/joia1.png"),
                 1, // Primeira imagem é correta
                 2
         ));
