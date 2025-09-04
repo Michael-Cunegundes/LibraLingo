@@ -133,17 +133,26 @@ public class QuizDataInitializer implements ApplicationRunner {
 
     private void criarNivel3_Familia() {
         log.info("👨‍👩‍👧‍👦 Criando Nível 3: Família...");
-
-        // Para o Nível 3, você precisará adicionar as imagens correspondentes
-        // Vou criar a estrutura com placeholders que você pode substituir
+        
 
         // 1. MÃE
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/mae.png",  // Adicionar esta imagem
+                "/images/mae1.png,/images/mae2.png",  // Adicionar esta imagem
                 List.of("Pai", "Mãe", "Irmão", "Avó"),
                 1, 3
         ));
+
+
+
+        perguntaService.salvar(criarPergunta(
+                TipoPergunta.TEXTO_PARA_IMAGEM,
+                "Família",
+                List.of("/images/familia1.png", "/images/casa1.png", "/images/carro1.png", "/images/eu1.png"),
+                0, 3
+        ));
+
+
 
         // 2. PAI
         perguntaService.salvar(criarPergunta(
@@ -162,12 +171,6 @@ public class QuizDataInitializer implements ApplicationRunner {
         ));
 
         // 4. FAMÍLIA (conceito)
-        perguntaService.salvar(criarPergunta(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Família",
-                List.of("/images/familia.png", "/images/casa1.png", "/images/carro1.png", "/images/eu1.png"),
-                0, 3
-        ));
 
         // 5. FILHO/FILHA
         perguntaService.salvar(criarPergunta(
