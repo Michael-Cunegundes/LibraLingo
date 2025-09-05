@@ -138,46 +138,44 @@ public class QuizDataInitializer implements ApplicationRunner {
         // 1. MÃE
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/mae1.png,/images/mae2.png",  // Adicionar esta imagem
+                "/images/mae1.png,/images/mae22.png",  // Adicionar esta imagem
                 List.of("Pai", "Mãe", "Irmão", "Avó"),
                 1, 3
         ));
 
 
-
+        // 2. Tio
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Família",
-                List.of("/images/familia1.png", "/images/casa1.png", "/images/carro1.png", "/images/eu1.png"),
-                0, 3
+                "Tio",
+                List.of("/images/idade.png", "/images/comer1.png", "/images/tio1.png", "/images/quaseirmao1.png"),
+                2, 3
         ));
 
 
 
-        // 2. PAI
+        // 3. PAI
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/pai.png",  // Adicionar esta imagem
+                "/images/quasepai3.png,/images/mae22.png", // Adicionar esta imagem
                 List.of("Pai", "Tio", "Avô", "Primo"),
                 0, 3
         ));
 
-        // 3. IRMÃO/IRMÃ
+        // 4. Amigo
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/irmao.png",  // Adicionar esta imagem
-                List.of("Primo", "Amigo", "Irmão", "Sobrinho"),
-                2, 3
+                "/images/amigo.png",  // Adicionar esta imagem
+                List.of("Primo", "Amigo", "Irmão", "Conhecido"),
+                1, 3
         ));
 
-        // 4. FAMÍLIA (conceito)
-
-        // 5. FILHO/FILHA
+        // 5. Familia
         perguntaService.salvar(criarPergunta(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Filho",
-                List.of("/images/irmao.png", "/images/filho.png", "/images/pai.png", "/images/mae.png"),
-                1, 3
+                TipoPergunta.IMAGEM_PARA_TEXTO,
+                "/images/familia1.png,/images/familia2.png",
+                List.of("Irmaos", "Time", "Grupo", "Familia"),
+                3, 3
         ));
     }
 
@@ -187,33 +185,33 @@ public class QuizDataInitializer implements ApplicationRunner {
         // 1. ÁGUA
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/agua.png",  // Adicionar esta imagem
+                "/images/agua1.png,/images/agua2.png",  // Adicionar esta imagem
                 List.of("Leite", "Café", "Água", "Suco"),
                 2, 4
         ));
 
-        // 2. COMIDA
+        // 2. Restaurante
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/comida.png",  // Adicionar esta imagem
-                List.of("Bebida", "Comida", "Lanche", "Doce"),
+                "/images/quaserestaurante1.png,/images/quaserestaurante2.png",  // Adicionar esta imagem
+                List.of("Bebida", "Restaurante", "Cozinha", "Jantar"),
                 1, 4
         ));
 
         // 3. CAFÉ
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/cafe.png",  // Adicionar esta imagem
+                "/images/cafe1.png,/images/cafe2.png",  // Adicionar esta imagem
                 List.of("Chá", "Água", "Leite", "Café"),
                 3, 4
         ));
 
-        // 4. PÃO
+        // 4. Comer
         perguntaService.salvar(criarPergunta(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Pão",
-                List.of("/images/bolo.png", "/images/pao.png", "/images/cafe.png", "/images/agua.png"),
-                1, 4
+                TipoPergunta.IMAGEM_PARA_TEXTO,
+                "/images/comer1.png,/images/comer2.png",  // Adicionar esta imagem
+                List.of("Comer", "Fome", "Venha", "Jantar"),
+                3, 4
         ));
 
         // 5. FRUTA
