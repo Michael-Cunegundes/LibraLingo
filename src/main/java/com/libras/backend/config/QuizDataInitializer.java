@@ -202,7 +202,7 @@ public class QuizDataInitializer implements ApplicationRunner {
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/cafe1.png,/images/cafe2.png",  // Adicionar esta imagem
-                List.of("Chá", "Água", "Leite", "Café"),
+                List.of("Chá", "Bebida", "Leite", "Café"),
                 3, 4
         ));
 
@@ -211,59 +211,59 @@ public class QuizDataInitializer implements ApplicationRunner {
                 TipoPergunta.IMAGEM_PARA_TEXTO,
                 "/images/comer1.png,/images/comer2.png",  // Adicionar esta imagem
                 List.of("Comer", "Fome", "Venha", "Jantar"),
-                3, 4
+                0, 4
         ));
 
-        // 5. FRUTA
+        // 5. Arroz
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Fruta",
-                List.of("/images/fruta.png", "/images/comida.png", "/images/agua.png", "/images/pao.png"),
-                0, 4
+                "Arroz",
+                List.of("/images/quasepao1.png", "/images/oipart1.png", "/images/arroz1.png", "/images/mae2.png"),
+                2, 4
         ));
     }
 
     private void criarNivel5_Lugares() {
         log.info("🏠 Criando Nível 5: Lugares...");
 
-        // 1. ESCOLA
+        // 1. Casa
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/escola.png",  // Adicionar esta imagem
+                "/images/casa1.png",  // Adicionar esta imagem
                 List.of("Casa", "Escola", "Hospital", "Mercado"),
-                1, 5
+                0, 5
         ));
 
         // 2. HOSPITAL
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/hospital.png",  // Adicionar esta imagem
+                "/images/quasehospital1.png,/images/quasehospital2.png",  // Adicionar esta imagem
                 List.of("Hospital", "Hotel", "Escola", "Banco"),
                 0, 5
         ));
 
-        // 3. MERCADO
+        // 3. Shopping
+        perguntaService.salvar(criarPergunta(
+                TipoPergunta.TEXTO_PARA_IMAGEM,
+                "Shopping",  // Adicionar esta imagem
+                List.of("/images/idade.png", "/images/onibus1.png", "/images/moto1.png", "/images/shoping.png"),
+                3, 5
+        ));
+
+        // 2. Banheiro
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.IMAGEM_PARA_TEXTO,
-                "/images/mercado.png",  // Adicionar esta imagem
-                List.of("Farmácia", "Padaria", "Mercado", "Restaurante"),
+                "/images/quasebanheiro1.png",  // Adicionar esta imagem
+                List.of("Hospital", "Hotel", "Banheiro", "Banco"),
                 2, 5
         ));
 
-        // 4. BANCO
+        // 5. Cinema
         perguntaService.salvar(criarPergunta(
                 TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Banco",
-                List.of("/images/banco.png", "/images/escola.png", "/images/hospital.png", "/images/casa1.png"),
+                "Cinema",
+                List.of("/images/cinema1.png", "/images/onibus2.png", "/images/pai1.png", "/images/quasepai2.png"),
                 0, 5
-        ));
-
-        // 5. TRABALHO
-        perguntaService.salvar(criarPergunta(
-                TipoPergunta.TEXTO_PARA_IMAGEM,
-                "Trabalho",
-                List.of("/images/casa1.png", "/images/trabalho.png", "/images/escola.png", "/images/mercado.png"),
-                1, 5
         ));
     }
 
